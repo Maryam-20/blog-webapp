@@ -1,0 +1,72 @@
+{% extends 'common.html' %}
+{% block content %}
+{% load static %}
+
+<section class="row my-4">
+    {% if userprofile %}
+    {% for profile in userprofile %}
+    <p>how are we?</p>
+    <div class="shadow border col-sm-12 col-md-4 pt-3" style="height: auto; margin: auto;">
+        <div class=" container-fluid d-flex py-4">
+            <div class=" border border-primary rounded-circle " style="height: 100px; width: 100px;">
+                {% if profile.profile_picture %}
+                <img src="{{profile.profile_picture.url}}" alt="{{profile.user.username}}" width="100px" height="100px"/>
+                {% else %}
+                <img src="{% static '/img/person/person_1.jpg' %}" alt="" width="100px" height="100px"/>
+                {% endif %}
+            </div>
+            <h5 class="align-self-center mx-3">Profile Details</h5>
+        </div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    {% if profile.is_creator == 1 %}
+                    <td class="py-3" style="width: 150px;">CreatorID:</td>
+                    <td class="py-3" >BL-0{{profile.user_id}}</td>
+                    {% else %}
+                    <td class="py-3" style="width: 150px;">MY ID:</td>
+                    <td class="py-3" >BL-0{{profile.user_id}}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Username:</td>
+                    <td class="py-3">{{profile.user.username}}</td>
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Full Name:</td>
+                    <td class="py-3" style="width: 150px;">{{profile.user.first_name}} {{profile.user.last_name}}</td>
+
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Email:</td>
+                    <td class="py-3" style="width: 150px;">{{profile.user.email}}</td>
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Phone:</td>
+                    <td class="py-3">{{profile.sex}}</td>
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Address:</td>
+                    <td class="py-3">{{profile.country}}</td>
+                </tr>
+                <tr>
+                    <td class="py-3" style="width: 150px;">Following:</td>
+                    <td class="py-3">{{profile.followed_craetors}}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class= "field">
+            <div class ="control d-flex justify-content-center gap-2 py-4">
+                <a href="#">
+                    <button type="submit" class="btn btn-primary">
+                        Edit Profile
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</section>
+{% endblock %}
