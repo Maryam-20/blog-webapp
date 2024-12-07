@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-from zoneinfo import ZoneInfo
+# from zoneinfo import ZoneInfo
 import pymysql
 pymysql.install_as_MySQLdb()
 from decouple import config
@@ -85,9 +85,24 @@ WSGI_APPLICATION = "multimedia.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Database For Local development
+# DATABASES = {
+#     "default" :{
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": config('DB_NAME'),
+#         "USER": config('DB_USER'),
+#         "PASSWORD": config('DB_PASSWORD'),
+#         "HOST": config('DB_HOST', default = "localhost"),
+#         "PORT": config('DB_PORT', cast = int, default = 3308),
+        
+#     }
+# }
+
+# Database for render deployment
+# 
 DATABASES = {
     "default" :{
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": config('DB_NAME'),
         "USER": config('DB_USER'),
         "PASSWORD": config('DB_PASSWORD'),
@@ -96,6 +111,7 @@ DATABASES = {
         
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
