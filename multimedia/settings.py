@@ -37,6 +37,7 @@ DEBUG = config('DEBUG', cast=bool, default=False)
 # ALLOWED_HOSTS = ['multimedia.onrender.com', 'localhost']
 # ALLOWED_HOSTS = ['pundit-write.onrender.com']
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+print("ALLOWED_HOSTS =", os.getenv('ALLOWED_HOSTS', ''))  # Log this to debug
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'pundit-write.onrender.com').split(',')
 
 
