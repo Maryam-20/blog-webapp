@@ -33,11 +33,11 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['multimedia.onrender.com', 'localhost']
-ALLOWED_HOSTS = ['pundit-write.onrender.com']
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
-
+# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['multimedia.onrender.com', 'localhost']
+# ALLOWED_HOSTS = ['pundit-write.onrender.com']
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'pundit-write.onrender.com').split(',')
 
 
 # Application definition
