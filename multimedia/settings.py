@@ -83,6 +83,8 @@ TEMPLATES = [
         },
     },
 ]
+# AUTH_USER_MODEL = 'multimedia.User'
+
 
 WSGI_APPLICATION = "multimedia.wsgi.application"
 

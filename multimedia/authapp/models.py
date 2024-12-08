@@ -5,9 +5,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 # Create your models here.
+
+# Creator Profile Model
 class CreatorProfile(models.Model):
     creator_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    user = models.OneToOneField(User, on_delete= models.CASCADE, related_name="creator_profile")
     date_joined_as_creator = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
     bio = models.TextField(max_length= 1000, null=True, blank=True)
@@ -17,21 +19,21 @@ class CreatorProfile(models.Model):
     
     
     def __str__(self):
-        return f"Bl{self.creator_id} {self.user.username}"
+        return f"CreatorProfile {self.creator_id} {self.user.username}"
     
 
-    @receiver(post_save, sender = User)
-    def create_creator_profile(sender, instance, created, **kwargs):
-        if created and hasattr(instance, 'is_creator') and instance.is_creator:
-            CreatorProfile.objects.create(user=instance)
+    # @receiver(post_save, sender = User)
+    # def create_creator_profile(sender, instance, created, **kwargs):
+    #     if created and hasattr(instance, 'is_creator') and instance.is_creator:
+    #         CreatorProfile.objects.create(user=instance)
             
-    def save_creator_profile(sender, instance, **kwargs):
-        if hasattr(instance, 'creatorprofile'):
-            instance.creatorprofile.save()    
+    # def save_creator_profile(sender, instance, **kwargs):
+    #     if hasattr(instance, 'creatorprofile'):
+    #         instance.creatorprofile.save()    
     
   
 class UserProfile(models.Model):
-     user = models.OneToOneField(User, on_delete=models.CASCADE)
+     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
      is_creator = models.BooleanField(default=False)
      sex = models.CharField(max_length= 10, null=True, blank = True)
      country = models.CharField(max_length= 50, null=True, blank=True)
@@ -44,14 +46,28 @@ class UserProfile(models.Model):
      def __str__(self):
          return f"{self.user.id} {self.user.username}"
      
-     @receiver(post_save, sender=User)
-     def create_user_profile(sender, instance, created, **kwargs):
-         if created:
-             UserProfile.objects.create(user = instance)
+    #  @receiver(post_save, sender=User)
+    #  def create_user_profile(sender, instance, created, **kwargs):
+    #      if created:
+    #          UserProfile.objects.create(user = instance)
          
      
-     def save_user_profile(sender, instance, **kwargs):
-         instance.userprofile.save()
+    #  def save_user_profile(sender, instance, **kwargs):
+    #      instance.userprofile.save()
      
-     
-        
+
+
+# Signals
+
+# Signal for creating UserProfile when a User is created
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+# Signal for creating CreatorProfile if user becomes a creator
+@receiver(post_save, sender=User)
+def create_creator_profile(sender, instance, created, **kwargs):
+    if created and instance.userprofile.is_creator:  # Only create CreatorProfile if user is a creator
+        CreatorProfile.objects.create(user=instance)
